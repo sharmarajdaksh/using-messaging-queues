@@ -1,0 +1,52 @@
+version: '3'
+services:
+    rabbitmq:
+        image: rabbitmq:3.8
+        environment:
+            RABBITMQ_DEFAULT_USER: rabbitmq
+            RABBITMQ_DEFAULT_PASS: rabbitmq
+    producer:
+        build:
+            context: ./producer/
+            dockerfile: Dockerfile
+        restart: always
+        depends_on: 
+            - rabbitmq
+        environment:
+            RABBITMQ_HOST: rabbitmq
+            RABBITMQ_USER: rabbitmq
+            RABBITMQ_PASS: rabbitmq
+            RABBITMQ_QUEUE: messages
+        volumes:
+            - /usr/app/node_modules
+            - ./producer:/usr/app/
+    consumer:
+        build:
+            context: ./consumer/
+            dockerfile: Dockerfile
+        restart: always
+        depends_on: 
+            - rabbitmq
+        environment:
+            RABBITMQ_HOST: rabbitmq
+            RABBITMQ_USER: rabbitmq
+            RABBITMQ_PASS: rabbitmq
+            RABBITMQ_QUEUE: messages
+        volumes:
+            - /usr/app/node_modules
+            - ./consumer/:/usr/app/
+    secondary_producer:
+        build:
+            context: ./secondary_producer/
+            dockerfile: Dockerfile
+        restart: always
+        depends_on: 
+            - rabbitmq
+        environment:
+            RABBITMQ_HOST: rabbitmq
+            RABBITMQ_USER: rabbitmq
+            RABBITMQ_PASS: rabbitmq
+            RABBITMQ_QUEUE: messages
+        volumes:
+            - /usr/app/node_modules
+            - ./secondary_producer:/usr/app/
