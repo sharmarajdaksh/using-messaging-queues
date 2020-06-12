@@ -487,11 +487,11 @@ Of course it requires you to have docker and docker-compose installed locally. H
 
 Running docker-compose output you'll see an output that looks something like this:
 
-![]()
+![Output](op-1.png)
 
 Eventually, when all of the messages have been processed, there will be no more console logging. The producers do not send any more data into the queue, and the consumer continues waiting on the queue.
 
-![]()
+![Output](op-2.png)
 
 If you look hard enough, you'll see how the order of messages being sent and being received is perfectly in line, as expected from the queue. Further, we also see that the consumer works on the messages one by one, independent of how the messages arrive, logging a RECEIVED message exactly every 2 seconds.
 
